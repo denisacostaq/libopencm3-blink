@@ -64,7 +64,8 @@ install:
     - platformio update
 
 script:
-    - platformio ci --lib="." --board=mbed_connect_odin
+    - platformio lib install 416
+    - platformio ci --lib="." --board=nucleo_f207zg
 
 notifications:
     email:
