@@ -64,7 +64,8 @@ install:
     - platformio update
 
 script:
-    - platformio ci --lib="." --board=ststm32
+    - platformio boards
+    - platformio ci --lib="." --board=mbed_connect_odin
 
 notifications:
     email:
