@@ -68,7 +68,7 @@ script:
     - ls -l
     - platformio lib install 416
     - ls -l
-    - platformio ci --lib="." --board=nucleo_f207zg
+    - platformio ci
 
 notifications:
     email:
