@@ -1,9 +1,8 @@
 /*
- * This file is part of the libopencm3 project. 
+ * This file is part of the libopencm3 project.
  *
  * Copyright (C) 2009 Uwe Hermann <uwe@hermann-uwe.de>
- * Copyright (C) 2011 Stephen Caudle <scaudle@doceme.com>
- * Copyright (C) 2012 Karl Palsson <karlp@tweak.net.au>
+ * Copyright (C) 2011 Fergus Noble <fergusnoble@gmail.com>
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,41 +20,32 @@
 
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
-#ifdef STM32L1
-	#define RCCLEDPORT (RCC_GPIOB)
-	#define LEDPORT (GPIOB)
-	#define LEDPIN (GPIO6)
-#elif STM32F3
-	#define RCCLEDPORT (RCC_GPIOE)
-	#define LEDPORT (GPIOE)
-	#define LEDPIN (GPIO8)
-#elif STM32F4
-	#define RCCLEDPORT (RCC_GPIOD)
-	#define LEDPORT (GPIOD)
-	#define LEDPIN (GPIO12)
-#endif
 
 static void gpio_setup(void)
 {
-	/* Enable GPIO clock. */
-	/* Using API functions: */
-	rcc_periph_clock_enable(RCCLEDPORT);
-	/* Set pin to 'output push-pull'. */
-	/* Using API functions: */
-	gpio_mode_setup(LEDPORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, LEDPIN);
+	/* Enable GPIOC clock. */
+	rcc_periph_clock_enable(RCC_GPIOC);
+
+	/* Set GPIO3 and GPIO4 (in GPIO port C) to 'output push-pull'. */
+	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO3 | GPIO4);
 }
 
 int main(void)
 {
 	int i;
+
 	gpio_setup();
-	/* Blink the LED on the board. */
+
+	gpio_set(GPIOC, GPIO3);
+	gpio_clear(GPIOC, GPIO4);
+
+	/* Blink the LEDs (PC3, PC4) on the board. */
 	while (1) {
 		/* Using API function gpio_toggle(): */
-		gpio_toggle(LEDPORT, LEDPIN);	/* LED on/off */
-		for (i = 0; i < 1000000; i++) {	/* Wait a bit. */
+		gpio_toggle(GPIOC, GPIO3);
+		gpio_toggle(GPIOC, GPIO4);
+		for (i = 0; i < 800000; i++)	/* Wait a bit. */
 			__asm__("nop");
-		}
 	}
 
 	return 0;
