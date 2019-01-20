@@ -64,7 +64,7 @@ install:
     - platformio update
 
 script:
-    - platformio ci --lib="." --board=ID_1 --board=ID_2 --board=ID_N
+    - platformio ci --lib="." --board=ststm32
 
 notifications:
     email:
