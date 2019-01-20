@@ -64,8 +64,6 @@ install:
     - platformio update
 
 script:
-    - platformio lib install 416
-    - ls -l
     - platformio ci --project-conf platformio.ini
 
 notifications:
