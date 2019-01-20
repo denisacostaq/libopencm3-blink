@@ -64,7 +64,6 @@ install:
     - platformio update
 
 script:
-    - platformio boards
     - platformio ci --lib="." --board=mbed_connect_odin
 
 notifications:
